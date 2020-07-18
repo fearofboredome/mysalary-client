@@ -1,64 +1,55 @@
 import React from 'react';
 
-const App = () => (
-  <React.Fragment>
-    <h2 className="ui center aligned header">Calcul salaire</h2>
-    <form className="ui form">
-      <div className="ui stackable celled grid container">
-        <div className="two column row">
-          <div className="column">
-            <div className="two fields">
-              <div className="field">
-                <label>Horaire brut</label>
-                <input type="text" placeholder="0"/>
-              </div>
-              <div className="field">
-                <label>Horaire net</label>
-                <input type="text" placeholder="0"/>
-              </div>
-            </div>
-            <div className="two fields">
-              <div className="field">
-                <label>Mensuel brut</label>
-                <input type="text" placeholder="0"/>
-              </div>
-              <div className="field">
-                <label>Mensuel net</label>
-                <input type="text" placeholder="0"/>
-              </div>
-            </div>
-            <div className="two fields">
-              <div className="field">
-                <label>Annuel brut</label>
-                <input type="text" placeholder="0"/>
-              </div>
-              <div className="field">
-                <label>Annuel net</label>
-                <input type="text" placeholder="0"/>
-              </div>
-            </div>
-            <div className="inline fields">
-              <div className="field">
-                <div className="ui radio checkbox">
-                  <input type="radio" name="salarie_non_cadre" checked="" tabIndex="0" className="hidden"/>
-                  <label>Salarié non cadre</label>
-                </div>
-              </div>
-              <div className="field">
-                <div className="ui radio checkbox">
-                  <input type="radio" name="salarie_cadre" checked="" tabIndex="0" className="hidden"/>
-                  <label>Salarié cadre</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="column">
-            <div className="ui segment">Formulaire 2</div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </React.Fragment>
-);
+import {reduxForm} from "redux-form";
+import {Field} from "redux-form";
 
-export default App;
+class App extends React.Component {
+  onSubmit = formValues => {
+    console.log(formValues);
+  }
+  renderNumberInput = ({input, label}) => {
+    return (
+      <div className="field">
+        <label>{label}</label>
+        <input {...input} type="number" placeholder="0"/>
+      </div>
+    )
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <h2 className="ui center aligned header">Calcul salaire</h2>
+        <form className="ui form" onSubmit={this.props.handleSubmit(this.onSubmit)}>
+          <div className="ui stackable celled grid container">
+            <div className="two column row">
+              <div className="column">
+                <div className="two fields">
+                  <Field name="horaire_brut" label="Horaire brut"  component={this.renderNumberInput} />
+                  <Field name="horaire_net" label="Horaire net" component={this.renderNumberInput} />
+                </div>
+                <div className="two fields">
+                  <Field name="mensuel_brut" label="Mensuel brut" component={this.renderNumberInput} />
+                  <Field name="mensuel_net" label="Mensuel net" component={this.renderNumberInput} />
+                </div>
+                <div className="two fields">
+                  <Field name="annuel_brut" label="Annuel brut" component={this.renderNumberInput} />
+                  <Field name="annuel_net" label="Annuel net" component={this.renderNumberInput} />
+                </div>
+                <div className="inline fields">
+
+                </div>
+              </div>
+              <div className="column">
+                <div className="ui segment">Formulaire 2</div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </React.Fragment>
+    );
+  }
+}
+
+
+
+export default reduxForm({form: 'salaryForm'})(App);;
